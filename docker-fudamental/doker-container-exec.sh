@@ -1,1 +1,0 @@
-docker container exec -i -t namacontainer/idcontainer /bin/bash
