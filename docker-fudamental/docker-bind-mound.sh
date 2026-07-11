@@ -1,0 +1,1 @@
+docker container create --name mongodata --publish 27018:27017 --mount "type=bind,source=/home/jupiter/Documents/backup_data_docker,destination=/data/db" --env MONGO_INITDB_ROOT_USERNAME=piyo --env MONGO_INITDB_ROOT_PASSWORD=piyo mongo:latest
