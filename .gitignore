@@ -1,0 +1,12 @@
+# Mengabaikan folder dependency Terraform
+.terraform/
+
+# Mengabaikan file state lokal (opsional tapi disarankan agar tidak konflik)
+*.tfstate
+*.tfstate.*
+terraform.tfstate.backup
+.terraform.tfstate*
+
+# Mengabaikan file variabel sensitif
+*.tfvars
+*.tfvars.json
