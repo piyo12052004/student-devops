@@ -46,14 +46,22 @@ stages {
 
     stage("Laravel Migration") {
         steps {
-            sh """
-                docker run --rm \
-                    --env-file .env.production \
-                    ${IMAGE_NAME}:${IMAGE_TAG} \
+            withCredentials([
+                file(
+                    credentialsId: "laravel-semple-production-env",
+                    variable: "ENV_FILE"
+                )
+            ]) {
+                sh """
+                    docker run --rm 
+                    --env-file "${ENV_FILE}" 
+                    ${IMAGE_NAME}:${IMAGE_TAG} 
                     php artisan migrate --force
-            """
+                """
+                }
+            }
         }
-    }
+
 
     stage("Deploy to MIG") {
         steps {
