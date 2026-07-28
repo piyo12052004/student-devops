@@ -68,7 +68,7 @@ pipeline {
                         rolling-action replace \
                         portfolio-mig \
                         --region=asia-southeast2 \
-                        --max-surge=1 \
+                        --max-surge=2 \
                         --max-unavailable=0
                 """
             }
