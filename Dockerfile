@@ -23,29 +23,33 @@ RUN a2enmod rewrite
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Folder aplikasi
+# Folder aplikasi Laravel
 WORKDIR /var/www/html
 
-# Salin source code Laravel
+# Salin semua source code
 COPY . .
 
 # Install dependency Laravel
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
-    --no-interaction
+    --no-interaction \
+    --prefer-dist
 
-# Atur permission Laravel
+# Permission Laravel
 RUN chown -R www-data:www-data \
+    /var/www/html/storage \
+    /var/www/html/bootstrap/cache \
+    && chmod -R 775 \
     /var/www/html/storage \
     /var/www/html/bootstrap/cache
 
-# Apache diarahkan ke folder public Laravel
+# Arahkan Apache ke folder public Laravel
 RUN sed -i \
     's!/var/www/html!/var/www/html/public!g' \
     /etc/apache2/sites-available/000-default.conf
 
-# Port aplikasi
+# Port HTTP
 EXPOSE 80
 
 # Jalankan Apache
