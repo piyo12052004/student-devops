@@ -20,13 +20,13 @@ Route::get('/', function () {
 
         $databaseStatus = [
             'connected' => true,
-            'message' => 'Database berhasil terhubung!',
+            'message' => 'Database berhasil terhubungg!',
             'database' => DB::connection()->getDatabaseName(),
         ];
     } catch (\Exception $e) {
         $databaseStatus = [
             'connected' => false,
-            'message' => 'Database gagal terhubung!',
+            'message' => 'Database gagal terhubungg!',
             'error' => $e->getMessage(),
         ];
     }
