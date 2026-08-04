@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config-3
+data:
+  # Config File (YAML)
+  config.yaml: |
+    app:
+      name: my-service
+      port: 8080
+    database:
+      host: postgres-service
+      port: 5432
+
+  # Config File (JSON)
+  features.json: |
+    {
+      "enable_logging": true,
+      "max_retries": 3,
+      "theme": "dark"
+    }
