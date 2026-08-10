@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Install package dan PHP extension
+# Install system dependencies dan PHP extensions
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -8,8 +8,9 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libpq-dev \
     && docker-php-ext-install \
-    pdo_mysql \
+    pdo_pgsql \
     mbstring \
     zip \
     bcmath \
@@ -26,7 +27,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Folder aplikasi Laravel
 WORKDIR /var/www/html
 
-# Salin semua source code
+# Copy source code
 COPY . .
 
 # Install dependency Laravel
@@ -44,13 +45,11 @@ RUN chown -R www-data:www-data \
     /var/www/html/storage \
     /var/www/html/bootstrap/cache
 
-# Arahkan Apache ke folder public Laravel
+# Arahkan Apache ke public Laravel
 RUN sed -i \
     's!/var/www/html!/var/www/html/public!g' \
     /etc/apache2/sites-available/000-default.conf
 
-# Port HTTP
 EXPOSE 80
 
-# Jalankan Apache
 CMD ["apache2-foreground"]
