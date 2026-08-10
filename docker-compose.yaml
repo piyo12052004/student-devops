@@ -1,0 +1,44 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - laravel-network
+
+  postgres:
+    image: postgres:17
+    container_name: laravel-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U laravel -d laravel"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - laravel-network
+
+volumes:
+  postgres-data:
+
+networks:
+  laravel-network:
+    driver: bridge
