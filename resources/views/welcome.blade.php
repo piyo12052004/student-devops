@@ -53,7 +53,7 @@
                         <div class="ml-4">
 
                             <h2 class="text-xl font-bold text-green-600">
-                                Project Dev 2
+                                Project Dev 3
                             </h2>
                         </div>
 
