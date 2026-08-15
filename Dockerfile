@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
 # Install system dependencies dan PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -18,24 +18,21 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Aktifkan Apache rewrite
-RUN a2enmod rewrite
-
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Folder aplikasi Laravel
+# Working directory
 WORKDIR /var/www/html
 
-# Copy source code
+# Copy seluruh source Laravel
 COPY . .
 
-# Install dependency Laravel
+# Install Laravel dependencies
 RUN composer install \
     --no-dev \
-    --optimize-autoloader \
     --no-interaction \
-    --prefer-dist
+    --prefer-dist \
+    --optimize-autoloader
 
 # Permission Laravel
 RUN chown -R www-data:www-data \
@@ -45,11 +42,6 @@ RUN chown -R www-data:www-data \
     /var/www/html/storage \
     /var/www/html/bootstrap/cache
 
-# Arahkan Apache ke public Laravel
-RUN sed -i \
-    's!/var/www/html!/var/www/html/public!g' \
-    /etc/apache2/sites-available/000-default.conf
+EXPOSE 9000
 
-EXPOSE 80
-
-CMD ["apache2-foreground"]
+CMD ["php-fpm"]

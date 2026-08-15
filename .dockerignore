@@ -1,6 +1,10 @@
 .git
+.gitignore
 .env
+.env.*
 vendor
 node_modules
 storage/logs/*
-.env.production
+docker-compose.yml
+Dockerfile
+README.md
