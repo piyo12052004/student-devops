@@ -86,6 +86,24 @@ pipeline {
                 '''
             }
         }
+        stage('Deploy to GKE') {
+            steps {
+                echo "Deploy Laravel image ${IMAGE_TAG} ke GKE..."
+
+                sh '''
+                    IMAGE="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY}/${APP_NAME}:latest"
+
+                    kubectl set image deployment/laravel \
+                        init-laravel=${IMAGE} \
+                        php-fpm=${IMAGE} \
+                        -n laravel-dev
+
+                    kubectl rollout status deployment/laravel \
+                        -n laravel-dev \
+                        --timeout=180s
+                '''
+            }
+        }
     }
 
     post {
