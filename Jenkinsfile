@@ -91,7 +91,9 @@ pipeline {
                 echo "Deploy Laravel image ${IMAGE_TAG} ke GKE..."
 
                 sh '''
-                    IMAGE="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY}/${APP_NAME}:latest"
+                    IMAGE="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY}/${APP_NAME}:${IMAGE_TAG}"
+
+                    echo "Deploy image: ${IMAGE}"
 
                     kubectl set image deployment/laravel \
                         init-laravel=${IMAGE} \
