@@ -66,12 +66,23 @@ pipeline {
                         ${GCP_REGION}-docker.pkg.dev \
                         --quiet
 
+                    # Tag BUILD_NUMBER
                     docker tag \
                         ${APP_NAME}:${IMAGE_TAG} \
                         ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY}/${APP_NAME}:${IMAGE_TAG}
 
+                    # Tag latest
+                    docker tag \
+                        ${APP_NAME}:${IMAGE_TAG} \
+                        ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY}/${APP_NAME}:latest
+
+                    # Push BUILD_NUMBER
                     docker push \
                         ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY}/${APP_NAME}:${IMAGE_TAG}
+
+                    # Push latest
+                    docker push \
+                        ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY}/${APP_NAME}:latest
                 '''
             }
         }
