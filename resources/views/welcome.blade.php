@@ -38,7 +38,7 @@
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="mb-6 p-6 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-
+                    <h1>build dev</h1>
                     @if ($databaseStatus['connected'])
 
                         <div class="flex items-center">

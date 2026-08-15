@@ -4,6 +4,10 @@ pipeline {
     environment {
         APP_NAME = 'laravel-app'
         IMAGE_TAG = "${BUILD_NUMBER}"
+
+        GCP_PROJECT_ID = 'project-56b2f5d2-7168-44bb-ab5'
+        GCP_REGION = 'asia-southeast2'
+        AR_REPOSITORY = 'laravel-dev'
     }
 
     stages {
@@ -50,6 +54,24 @@ pipeline {
 
                 sh '''
                     docker images ${APP_NAME}
+                '''
+            }
+        }
+        stage('Push to Artifact Registry') {
+            steps {
+                echo 'Push Docker image ke Artifact Registry...'
+
+                sh '''
+                    gcloud auth configure-docker \
+                        ${GCP_REGION}-docker.pkg.dev \
+                        --quiet
+
+                    docker tag \
+                        ${APP_NAME}:${IMAGE_TAG} \
+                        ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY}/${APP_NAME}:${IMAGE_TAG}
+
+                    docker push \
+                        ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY}/${APP_NAME}:${IMAGE_TAG}
                 '''
             }
         }
