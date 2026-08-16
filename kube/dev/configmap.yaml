@@ -1,0 +1,21 @@
+# base64:CRTiEsiR72WQgKXZgv6Jrh6P7D9x4zLfrRhCZPk+524=
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: laravel-config
+  namespace: laravel-dev
+
+data:
+  APP_NAME: "Laravel"
+  APP_ENV: "production"
+  APP_DEBUG: "false"
+  APP_URL: "http://34.101.117.253/"
+
+  LOG_CHANNEL: "stderr"
+  LOG_LEVEL: "debug"
+
+  DB_CONNECTION: "pgsql"
+  DB_HOST: "10.115.0.3"
+  DB_PORT: "5432"
+  DB_DATABASE: "laravel"

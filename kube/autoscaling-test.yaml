@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoscaling-test
+spec:
+  replicas: 10
+
+  selector:
+    matchLabels:
+      app: autoscaling-test
+
+  template:
+    metadata:
+      labels:
+        app: autoscaling-test
+
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
